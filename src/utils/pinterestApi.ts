@@ -1,8 +1,7 @@
 
-// This file would contain real Pinterest API calls in a production app
-// For now, we'll use mock data
-
-import { DailyImage, PinterestPin } from '@/types';
+import { collection, addDoc, getDocs, query, where, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { DailyImage, PinterestPin, BoardConfig } from '@/types';
 import { idols } from '@/data/mockData';
 
 export const fetchPinsFromBoard = async (boardId: string): Promise<PinterestPin[]> => {
@@ -31,12 +30,7 @@ export const fetchPinsFromBoard = async (boardId: string): Promise<PinterestPin[
   ];
 };
 
-export const generateDailyImages = async (boardConfigs: { boardId: string; idolId: string }[]): Promise<DailyImage[]> => {
-  // In a real implementation, this would:
-  // 1. Fetch pins from Pinterest API for each board
-  // 2. Select random pins
-  // 3. Create DailyImage objects with idol data
-  
+export const generateDailyImages = async (boardConfigs: BoardConfig[]): Promise<DailyImage[]> => {
   const today = new Date().toISOString().split('T')[0];
   const result: DailyImage[] = [];
   
@@ -53,15 +47,49 @@ export const generateDailyImages = async (boardConfigs: { boardId: string; idolI
       // For each selected config, pick one pin
       const randomPin = pins[Math.floor(Math.random() * pins.length)];
       
-      result.push({
+      const dailyImage: DailyImage = {
         id: `daily-${Date.now()}-${idol.id}`,
         date: today,
         idol,
         pin: randomPin,
         isFavorite: false,
-      });
+      };
+      
+      // Optional: Save to Firestore
+      try {
+        await addDoc(collection(db, 'dailyImages'), {
+          ...dailyImage,
+          createdAt: Timestamp.now()
+        });
+      } catch (error) {
+        console.error('Error saving daily image to Firestore', error);
+      }
+      
+      result.push(dailyImage);
     }
   }
   
   return result;
+};
+
+// Fetch past images from Firestore
+export const getPastImages = async (): Promise<DailyImage[]> => {
+  try {
+    const q = query(collection(db, 'dailyImages'));
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        date: data.date,
+        idol: data.idol,
+        pin: data.pin,
+        isFavorite: data.isFavorite || false
+      } as DailyImage;
+    });
+  } catch (error) {
+    console.error('Error fetching past images', error);
+    return [];
+  }
 };
