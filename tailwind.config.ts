@@ -28,6 +28,16 @@ export default {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
+        idol: {
+          pink: '#FF85A1',
+          lightpink: '#FFC2D1',
+          pastel: '#FFE7ED',
+          white: '#FFFFFF',
+          offwhite: '#F9F9F9',
+          neon: '#FF2E63',
+          gray: '#8E9196',
+          dark: '#333333',
+        },
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'

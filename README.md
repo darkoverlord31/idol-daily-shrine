@@ -1,4 +1,6 @@
-# Welcome to your Lovable project
+# Daily Idol - Your Personal K-pop Idol Photo Shrine
+
+A desktop-first web application that serves as your daily K-pop idol photo shrine, pulling images from Pinterest boards and displaying them in a clean, poster-style feed.
 
 ## Project info
 
@@ -50,15 +52,25 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+## Features
+
+- **Daily Feed**: Displays 1-3 new idol images per day from configured Pinterest boards
+- **Image Display**: Shows idol name, group name, pin description, Pinterest source, and date pulled
+- **History Browsing**: Browse past days' images in a clean grid layout
+- **Favorites**: Save your favorite idol images to revisit later
+- **Admin Configuration**: Manage Pinterest board mappings and application settings
+
+## Technical Overview
 
 This project is built with:
 
 - Vite
 - TypeScript
 - React
-- shadcn-ui
-- Tailwind CSS
+- React Router for navigation
+- shadcn-ui for UI components
+- Tailwind CSS for styling
+- Context API for state management
 
 ## How can I deploy this project?
 
