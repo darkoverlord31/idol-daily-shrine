@@ -1,85 +1,108 @@
-# Daily Idol - Your Personal K-pop Idol Photo Shrine
+md
+# Daily Idol – Your Personal K-pop Idol Photo Shrine
 
-A desktop-first web application that serves as your daily K-pop idol photo shrine, pulling images from Pinterest boards and displaying them in a clean, poster-style feed.
+A desktop-first webapp that serves up fresh K-pop idol images every day by pulling from Pinterest boards and displaying them in a clean, poster-style feed.
 
-## Project info
+---
 
-**URL**: https://lovable.dev/projects/cb59b02e-f23f-499b-a30d-dfc3585c20ad
+## Project Info
 
-## How can I edit this code?
+**Repo:** https://github.com/darkoverlord31/daily-idol
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb59b02e-f23f-499b-a30d-dfc3585c20ad) and start prompting.
+### Local Development
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Clone the repo**  
+   ```bash
+   git clone https://github.com/darkoverlord31/daily-idol.git
+   cd daily-idol
+   
 
-**Use your preferred IDE**
+2. **Install dependencies**  
+   ```bash
+   npm install
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. **Set up environment variables**  
+   Create a file called `.env` in the project root with your keys:
+   ```bash
+   VITE_FIREBASE_API_KEY=your_firebase_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   PINTEREST_TOKEN=your_pinterest_access_token
+   PINTEREST_BOARD_ID=your_pinterest_board_id
+   ```
+   *(Keep this file out of version control by ensuring `.env` is in your `.gitignore`.)*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+4. **Start the dev server**  
+   ```bash
+   npm run dev
+   ```
+   Open your browser to http://localhost:5173 to see Daily Idol in action.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Editing the Code
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Your IDE:** Clone locally and work in VS Code, WebStorm, etc.  
+- **GitHub Web Editor:** Edit files directly on GitHub by clicking the pencil icon.  
+- **GitHub Codespaces:** Click **Code → Codespaces → Create new** to spin up an online dev environment instantly.
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
 ## Features
 
-- **Daily Feed**: Displays 1-3 new idol images per day from configured Pinterest boards
-- **Image Display**: Shows idol name, group name, pin description, Pinterest source, and date pulled
-- **History Browsing**: Browse past days' images in a clean grid layout
-- **Favorites**: Save your favorite idol images to revisit later
-- **Admin Configuration**: Manage Pinterest board mappings and application settings
+- **Daily Feed:** 1–3 new idol images per day from configured Pinterest boards  
+- **Image Display:** Idol name, group, description, Pinterest source & date  
+- **History Browsing:** Scroll or page through past days’ images in a neat grid  
+- **Favorites:** Heart your top biases and view them in a separate section  
+- **Admin Config:** Easily manage your Pinterest board IDs and idol mappings  
+
+---
 
 ## Technical Overview
 
-This project is built with:
+- **Frontend:** Vite + React + TypeScript  
+- **Styling:** Tailwind CSS  
+- **UI Components:** shadcn/ui  
+- **Routing / State:** React Router + Context API  
+- **Backend Functions:** Firebase Cloud Functions (scheduled Pinterest fetch)  
+- **Database:** Firebase Firestore  
+- **Hosting:** Firebase Hosting (or any static-site host)
 
-- Vite
-- TypeScript
-- React
-- React Router for navigation
-- shadcn-ui for UI components
-- Tailwind CSS for styling
-- Context API for state management
+---
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/cb59b02e-f23f-499b-a30d-dfc3585c20ad) and click on Share -> Publish.
+### Vercel (Recommended)
 
-## Can I connect a custom domain to my Lovable project?
+1. Push your code to GitHub.  
+2. Import the repo into Vercel.  
+3. In Vercel’s dashboard, add your environment variables (Firebase & Pinterest).  
+4. Deploy — Vercel will build (`npm run build`) and publish automatically.
 
-Yes, you can!
+### Firebase Hosting
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Install the CLI and log in:  
+   ```bash
+   npm install -g firebase-tools
+   firebase login
+   ```
+2. Initialize (if you haven’t already):  
+   ```bash
+   firebase init hosting
+   ```
+3. Build & deploy:  
+   ```bash
+   npm run build
+   firebase deploy
+   ```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*(You can also use Netlify, GitHub Pages, or your preferred host.)*
+
+---
+
+> **Chaewon Supremacy** — bias forever and forever perfect
