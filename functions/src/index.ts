@@ -1,37 +1,30 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
-
-import * as functions from "firebase-functions";
-import admin from "firebase-admin";
-import { fetchPinterestPins } from "./yourPinterestHelper"; // you’ll write this
+import { onSchedule } from "firebase-functions/v2/scheduler";
+import * as admin from "firebase-admin";
+import { fetchPinterestPins } from "./pinterestHelper";
 
 admin.initializeApp();
 
-// Runs every day at 6am
-export const dailyFetch = functions.pubsub
-  .schedule("0 6 * * *")
-  .timeZone("Africa/Gaborone")
-  .onRun(async () => {
-    const pins = await fetchPinterestPins();
-    const db = admin.firestore();
-    // Save pins to Firestore...
-    return Promise.resolve();
-  });
-
+export const dailyFetch = onSchedule(
+  "0 6 * * *",   // runs at 6 UTC every day
+  async () => {
+    try {
+      const pins = await fetchPinterestPins();
+      const db = admin.firestore();
+      const batch = db.batch();
+      pins.forEach((pin) => {
+        batch.set(db.collection("pins").doc(pin.id), {
+          id: pin.id,
+          url: pin.images?.["236x"]?.url ?? "",
+          title: pin.title ?? "",
+          created_at: pin.created_at,
+        });
+      });
+      await batch.commit();
+      console.log(`✅ Saved ${pins.length} pins`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error("❌ dailyFetch failed:", err);
+    }
+    // **no** explicit return here → returns Promise<void>
+  }
+);
